@@ -74,4 +74,4 @@ Recommendation:
 add and = in the code after < require(participantCount <= cap, "this event is closed");
 
 ## Conclusion
-The audited smart contract can not be deployed. This contract is not trustable as many critical severity found that shows that this contract may be to scam ether from participants.
+The audited smart contract can not be deployed. This contract is not trustable. Many critical severity were found which shows that this contract may be to scam ether from participants.
