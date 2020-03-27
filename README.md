@@ -18,22 +18,19 @@ link: https://github.com/TenZanGu/security-audit/blob/master/contracts/BadKickba
 The purpose of the contract, BadKickback, is used to encourage higher event turnout rate. The rule is to charge everyone a small fee when they sign up for the event. The fee will be refunded after the event check-in. No-shows will lose their fee, which will be split amongst the attendees.
 
 ## Issues/Vulnerabilities
-In total, 5 issues were reported including:
+In total, 6 issues were reported including:
 
-#### 1. owner privileges (the ability of an owner to manipulate contract, may be risky for participants).
+* 2 low severity issues.
 
-#### severity: critical
+* 1 high severity issue.
 
-#### Description
-only the owner can payout().
+* 2 critical severity issues.
 
-#### Recommendation
-Don't let the owner control the function.
-remove this code require(owner == msg.sender, "only owner can payout");
+* 1 owner privileges (the ability of an owner to manipulate contract, may be risky for participants)
 
-#### 2. owner can choose who to payout.
+#### 1. owner can choose who to payout.
 
-#### severity: critical
+#### severity: high
 
 #### Description
 the owner can choose the attendees for the payout().
@@ -42,7 +39,7 @@ the owner can choose the attendees for the payout().
 make the contract payout to all attended.
 remove this code (address[] memory attendees) and in the payout function replace all of the attendees with attended that is used to hold the users that attended the event. mapping(address=>bool) public attended; this can be check by making a ticket which is scaned at the event.
 
-#### 3. Re-entrancy.
+#### 2. Re-entrancy.
 
 #### severity: critical
 
@@ -52,9 +49,9 @@ the participants address can be a contract address with a fallback and do a dele
 #### Recommendation
 set a withdrawal limit for each address after counting the amount for each address attended.
 
-#### 4. owner gets all the ether.
+#### 3. owner gets all the ether.
 
-#### severity: critical
+#### severity: owner privileges (the ability of an owner to manipulate contract, may be risky for participants)
 
 #### Description
 the owner can destroy() and get all the ether.
@@ -63,7 +60,7 @@ the owner can destroy() and get all the ether.
 make the destroy function just destroy the contract.
 replace this code selfdestruct(owner) with selfdestruct().
 
-#### 5. public function
+#### 4. public function
 
 #### severity: critical 
 
@@ -73,7 +70,7 @@ Anyone can call destroy().
 #### Recommendation
 add this code require(owner == msg.sender, "only owner can destroy");
 
-#### 6. Not reaching Cap and stopping the participants.
+#### 5. Not reaching Cap and stopping the participants.
 
 #### severity: low
 
@@ -84,7 +81,7 @@ the participantCount is not equal to cap in require in participate() so there ca
 add and = in the code after < require(participantCount <= cap, "this event is closed");
 
 
-#### 7. Not reaching Cap and stopping the payout.
+#### 6. Not reaching Cap and stopping the payout.
 
 #### severity: low
 
