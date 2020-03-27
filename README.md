@@ -39,18 +39,18 @@ remove this code require(owner == msg.sender, "only owner can payout");
 the owner can choose the attendees for the payout().
 
 #### Recommendation
-make the contract payout to all participents.
-remove this code (address[] memory attendees) and in the payout function replace all of the attendees with participants that was used to hold the users that payed for the event. mapping(address=>bool) public participants;
+make the contract payout to all attended.
+remove this code (address[] memory attendees) and in the payout function replace all of the attendees with attended that is used to hold the users that attended the event. mapping(address=>bool) public attended; this can be check by making a ticket which is scaned at the event.
 
 #### 3. Re-entrancy.
 
 #### severity: critical
 
 #### Description
-the address in attendees can be a contract address with a fallback and do a delegatecall.
+the participants address can be a contract address with a fallback and do a delegatecall.
 
 #### Recommendation
-remove this code (address[] memory attendees) and in the payout function replace all of the attendees with mapping(address=>bool) private attended and create a attended() function with require(owner == msg.sender, "only owner can mark attendance") into a mapping(address=>bool) private attended;
+set a withdrawal limit for each address after counting the amount for each address attended.
 
 #### 4. owner gets all the ether.
 
@@ -78,7 +78,7 @@ add this code require(owner == msg.sender, "only owner can destroy");
 #### severity: low
 
 #### Description
-the participantCount is not equal to cap in require in participate().
+the participantCount is not equal to cap in require in participate() so there can only be 49 participants.
 
 #### Recommendation
 add and = in the code after < require(participantCount <= cap, "this event is closed");
