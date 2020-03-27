@@ -42,7 +42,17 @@ the owner can choose the attendees for the payout().
 make the contract payout to all participents.
 remove this code (address[] memory attendees) and in the payout function replace all of the attendees with participants that was used to hold the users that payed for the event. mapping(address=>bool) public participants;
 
-#### 3. owner gets all the ether.
+#### 3. Re-entrancy.
+
+#### severity: critical
+
+#### Description
+the address in attendees can be a contract address with a fallback and do a delegatecall.
+
+#### Recommendation
+remove this code (address[] memory attendees) and in the payout function replace all of the attendees with mapping(address=>bool) private attended and create a attended() function with require(owner == msg.sender, "only owner can mark attendance") into a mapping(address=>bool) private attended;
+
+#### 4. owner gets all the ether.
 
 #### severity: critical
 
@@ -53,7 +63,7 @@ the owner can destroy() and get all the ether.
 make the destroy function just destroy the contract.
 replace this code selfdestruct(owner) with selfdestruct().
 
-#### 4. public function
+#### 5. public function
 
 #### severity: critical 
 
@@ -63,12 +73,23 @@ Anyone can call destroy().
 #### Recommendation
 add this code require(owner == msg.sender, "only owner can destroy");
 
-#### 5. Not reaching Cap and stopping the payout.
+#### 6. Not reaching Cap and stopping the participants.
 
-#### severity: critical
+#### severity: low
 
 #### Description
-the participantCount is not equal to cap in require.
+the participantCount is not equal to cap in require in participate().
+
+#### Recommendation
+add and = in the code after < require(participantCount <= cap, "this event is closed");
+
+
+#### 7. Not reaching Cap and stopping the payout.
+
+#### severity: low
+
+#### Description
+the participantCount is not equal to cap in require in payout().
 
 #### Recommendation
 add and = in the code after < require(participantCount <= cap, "this event is closed");
