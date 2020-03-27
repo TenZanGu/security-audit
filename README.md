@@ -4,7 +4,7 @@
 Perform a security audit on the contract. Document in a report all the issues/vulnerabilities, classify their severities and provide recommendations.
 
 ## Disclamer!
-This project is used for practicing security audit on a contract intentially coded with security vunerabilities.
+This project is used for practicing security audit on a contract intentially coded with security vunerabilities and this audit is not guarantee the contract is bug free.
 
 Audited by : Lobsang Tenzin 
 
